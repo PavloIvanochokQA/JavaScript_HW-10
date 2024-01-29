@@ -16,21 +16,17 @@ import { createMarkupBigCard, createMarkupLittleCard } from './js/markup';
 
 const searchFormRef = document.querySelector('#searchForm');
 const productsListRef = document.querySelector('.productsList');
-const searchFormInputRef = document.querySelector('.searchForm-input');
-const searchFormButtonRef = document.querySelector('.searchForm-button');
 
-searchFormInputRef.addEventListener('input', onSearchFormInput);
 searchFormRef.addEventListener('submit', onSearchFormSubmit);
-
-searchFormButtonRef.disabled = true;
 
 async function onSearchFormSubmit(event) {
   event.preventDefault();
   const query = event.target.elements.searchValue.value.toLowerCase().trim();
   if (!query) {
+    productsListRef.innerHTML = '';
+    Notify.failure('Input field empty!')
     return;
   }
-
   try {
     const { products } = await fetchProductsByQuery(query);
     event.target.reset();
@@ -52,10 +48,5 @@ async function onSearchFormSubmit(event) {
     productsListRef.innerHTML = createMarkupBigCard(products);
   } catch (error) {
     console.log(error.message);
-  }
-}
-
-function onSearchFormInput(event) {
-  const value = event.target.value.trim();
-  searchFormButtonRef.disabled = !value;
-}
+  };
+};
