@@ -20,13 +20,12 @@ async function onSearchFormSubmit(event) {
 
 
         if (result.length > 20) {
-            Notify.failure(`Too many (${result.length}) matches found. Please enter a more specific name!`);
+            Notify.success(`Too many matches found. Please enter a more specific name!`);
             productsListRef.innerHTML = "";
             return;
         };
 
         if (result.length > 1 && result.length <= 20) {
-            Notify.success(`We found ${result.length} countries!`);
             productsListRef.innerHTML = createMarkupLittleCard(result);
             return;
         }
