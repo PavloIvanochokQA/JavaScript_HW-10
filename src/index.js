@@ -19,13 +19,13 @@ async function onSearchFormSubmit(event) {
         const result = await fetchCountries(query);
 
 
-        if (result.length > 20) {
+        if (result.length > 10) {
             Notify.info(`Too many matches found. Please enter a more specific name!`);
             productsListRef.innerHTML = "";
             return;
         };
 
-        if (result.length > 1 && result.length <= 20) {
+        if (result.length > 1 && result.length <= 10) {
             productsListRef.innerHTML = createMarkupLittleCard(result);
             return;
         }
