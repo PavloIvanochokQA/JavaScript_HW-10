@@ -20,7 +20,7 @@ async function onSearchFormSubmit(event) {
 
 
         if (result.length > 20) {
-            Notify.success(`Too many matches found. Please enter a more specific name!`);
+            Notify.info(`Too many matches found. Please enter a more specific name!`);
             productsListRef.innerHTML = "";
             return;
         };
