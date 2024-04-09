@@ -8,7 +8,7 @@ export function createMarkupBigCard(result) {
     <div class="block_4">
     <h2 class="bigname" style="font-size:50px">${elem.name.official}</h2>
     </div>
-    <h2 class="capital" style="font-size:25px">CAPITAL: ${elem.capital[0]}</h2>
+    <h2 class="capital" style="font-size:25px"><b>Capital:</b> ${elem.capital[0]}</h2>
     <h2 class="population" style="font-size:25px">POPULATION: ${elem.population}</h2>
     <h2 class="languages" style="font-size:25px">LANGUAGES: ${Object.values(elem.languages)}</h2>
   </li>`
