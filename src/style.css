@@ -1,5 +1,7 @@
 body {
-    background-color: rgba(29, 29, 31, 0.466)
+    background-image: url('https://png.pngtree.com/thumb_back/fw800/background/20210831/pngtree-wall-grain-texture-dark-gray-background-image_779339.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 li {
