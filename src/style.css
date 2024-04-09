@@ -1,0 +1,31 @@
+body {
+    background-color: rgba(29, 29, 31, 0.466)
+}
+
+li {
+    list-style-type: none;
+}
+
+input {
+    font-size: 25px;
+}
+
+.block_1 h2 {
+    font-size: 25px;
+}
+
+.block_1 {
+    display: inline-block;
+}
+
+.block_2 {
+    display: inline-block;
+}
+
+.block_3 {
+    display: inline-block;
+}
+
+.block_4 {
+    display: inline-block;
+}

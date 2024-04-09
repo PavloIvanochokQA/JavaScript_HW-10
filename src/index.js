@@ -1,52 +1,42 @@
-// # Модуль 10. Заняття 9
-
-//ЗАДАЧА 1
-// Напиши фронтенд частину застосунку для пошуку товарів по слову в назві, описі тощо. Використовуй АРІ
-// https://dummyjson.com/
-// Взаємодію з бекендом опиши у файлі apiDummyJSON.js
-// Зроби фільтрацію параметрів у запиті, тебе цікавлять наступні поля: title, price, description, brand, images, rating.
-// Значення для пошуку отримай з форми після натискання на кнопку "Search".
-// Якщо у відповідь від бекенда прийшло більше 4х продуктів, то додай у інтерфейс розмітку списку, яка буде складатись із зображення і назви продукта. Якщо 2 і менше, то список карток з детальною інформацією по кожному товару.
-// Не забудь обробити можливі помилки 😉
-//(Product matching these criteria was not found, please try changing your search)
-
+const debounce = require("lodash.debounce")
 import { Notify } from 'notiflix';
-import { fetchProductsByQuery } from './js/apiDummyJSON';
+import { fetchCountries } from './js/fetchCountries'
 import { createMarkupBigCard, createMarkupLittleCard } from './js/markup';
 
-const searchFormRef = document.querySelector('#searchForm');
+const inputFieldRef = document.querySelector('#search-box');
 const productsListRef = document.querySelector('.productsList');
-
-searchFormRef.addEventListener('submit', onSearchFormSubmit);
+inputFieldRef.addEventListener("input", debounce(onSearchFormSubmit, 500));
 
 async function onSearchFormSubmit(event) {
-  event.preventDefault();
-  const query = event.target.elements.searchValue.value.toLowerCase().trim();
-  if (!query) {
-    productsListRef.innerHTML = '';
-    Notify.failure('Input field empty!')
-    return;
-  }
-  try {
-    const { products } = await fetchProductsByQuery(query);
-    event.target.reset();
-    if (!products.length) {
-      Notify.failure(
-        'Product matching these criteria was not found, please try changing your search'
-      );
-      productsListRef.innerHTML = '';
-      return;
-    }
+    event.preventDefault();
+    const query = event.target.value.toLowerCase().trim();
+    if (!query) {
+        productsListRef.innerHTML = '';
+        return;
+    };
 
-    if (products.length > 2) {
-      Notify.success(`We found ${products.length} products`);
-      productsListRef.innerHTML = createMarkupLittleCard(products);
-      return;
-    }
+    try {
+        const result = await fetchCountries(query);
 
-    Notify.success(`We found ${products.length} products`);
-    productsListRef.innerHTML = createMarkupBigCard(products);
-  } catch (error) {
-    console.log(error.message);
-  };
+
+        if (result.length > 20) {
+            Notify.failure(`Too many (${result.length}) matches found. Please enter a more specific name!`);
+            productsListRef.innerHTML = "";
+            return;
+        };
+
+        if (result.length > 1 && result.length <= 20) {
+            Notify.success(`We found ${result.length} countries!`);
+            productsListRef.innerHTML = createMarkupLittleCard(result);
+            return;
+        }
+        productsListRef.innerHTML = createMarkupBigCard(result);
+        return;
+    }
+    catch (error) {
+        productsListRef.innerHTML = "";
+        Notify.failure(`Oops, there is no country with that name`);
+        console.log(error.message);
+
+    };
 };
